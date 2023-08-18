@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 import javax.swing.*;
 
 public class AlphaChess {
@@ -21,7 +23,35 @@ public class AlphaChess {
         // f.add(ui);
         // f.setSize(500, 500);
         // f.setVisible(true);
+        makeMove("7657 ");
         System.out.println(possibleMove());
+        for(int i=0;i<8;i++){
+            System.out.println(Arrays.toString(ChessBoard[i]));
+        }
+    }
+    public static void makeMove(String move){
+        if(move.charAt(4)!='P'){
+            //x1,y1,x2,y2,capture piece
+            ChessBoard[Character.getNumericValue(move.charAt(2))][Character.getNumericValue(move.charAt(3))] = ChessBoard[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(1))];
+            ChessBoard[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(1))]= " ";
+        }else{
+            //pawn promotion
+            //col1,col2,oldP,newP,P
+            ChessBoard[1][Character.getNumericValue(move.charAt(0))] =" ";
+            ChessBoard[0][Character.getNumericValue(move.charAt(1))] = String.valueOf(move.charAt(3));
+        }
+    }
+    public static void undoMove(String move){
+        if(move.charAt(4)!='P'){
+            //x1,y1,x2,y2,capture piece
+            ChessBoard[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(1))] = ChessBoard[Character.getNumericValue(move.charAt(2))][Character.getNumericValue(move.charAt(3))];
+            ChessBoard[Character.getNumericValue(move.charAt(2))][Character.getNumericValue(move.charAt(3))]= String.valueOf(move.charAt(4));
+        }else{
+            //pawn promotion
+            //col1,col2,oldP,newP,P
+            ChessBoard[1][Character.getNumericValue(move.charAt(0))] ="P";
+            ChessBoard[0][Character.getNumericValue(move.charAt(1))] = String.valueOf(move.charAt(2));
+        }
     }
     static String possibleMove(){
         String list ="";
