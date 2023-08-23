@@ -19,15 +19,15 @@ public class AlphaChess {
     public static void main(String[] args) throws Exception {
         while(!"A".equals(ChessBoard[kingPosC/8][kingPosC%8])){kingPosC++;}
         while(!"a".equals(ChessBoard[kingPosL/8][kingPosL%8])){kingPosL++;}
-        // JFrame f = new JFrame("Chess");
-        // f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // UserInteface ui = new UserInteface();
-        // f.add(ui);
-        // f.setSize(500, 500);
-        // f.setVisible(true);
+        JFrame f = new JFrame("Chess");
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        UserInteface ui = new UserInteface();
+        f.add(ui);
+        f.setSize(500, 500);
+        f.setVisible(true);
        
         System.out.println(possibleMove());
-        makeMove(alphaBeta(globalDepth, 1000000,-1000000,"",0));
+        //makeMove(alphaBeta(globalDepth, 1000000,-1000000,"",0));
          //makeMove("7657 ");
         for(int i=0;i<8;i++){
             System.out.println(Arrays.toString(ChessBoard[i]));
