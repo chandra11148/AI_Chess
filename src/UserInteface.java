@@ -4,9 +4,11 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class UserInteface extends JPanel implements MouseListener,MouseMotionListener{
-    static int x=0,y=0;
+    static int mouseX,mouseY,newMouseX,newMouseY;
+
     static int sqrSize =32;
     public void paintComponent(Graphics g){
+        
         super.paintComponent(g);
         this.setBackground(Color.yellow);
         this.addMouseListener(this);
@@ -61,17 +63,52 @@ public class UserInteface extends JPanel implements MouseListener,MouseMotionLis
         // chessPieces = new ImageIcon("Chess_pieces.jpg").getImage();
         // g.drawImage(chessPieces,x,y,x+64,y+64,0,0,64,64,this);
     }
-    public void mousePressed(MouseEvent e){}
+    public void mousePressed(MouseEvent e){
+        if(e.getX()<8*sqrSize && e.getY()<8*sqrSize){
+                //that is inside board
+                mouseX = e.getX();
+                mouseY = e.getY();
+                repaint();
+        }
+    }
     public void mouseEntered(MouseEvent e){}
-    public void mouseReleased(MouseEvent e){}
+    public void mouseReleased(MouseEvent e){
+        if(e.getX()<8*sqrSize && e.getY()<8*sqrSize){
+                //that is inside board
+                newMouseX = e.getX();
+                newMouseY = e.getY();
+                if(e.getButton()==MouseEvent.BUTTON1){
+                        //left click
+                        String dragMove;
+                        if(newMouseY/sqrSize==0 && mouseY/sqrSize==1 && "P".equals(AlphaChess.ChessBoard[mouseY/sqrSize][mouseX/sqrSize])){
+                                //pawn promotion
+                               dragMove=""+mouseX/sqrSize+newMouseX/sqrSize+AlphaChess.ChessBoard[newMouseY/sqrSize][newMouseX/sqrSize]+"QP";
+
+                        }else{
+                                //regular move
+                                dragMove=""+mouseY/sqrSize+mouseX/sqrSize+newMouseY/sqrSize+newMouseX/sqrSize+AlphaChess.ChessBoard[newMouseY/sqrSize][newMouseX/sqrSize];
+
+                        }
+                    String userPosibilities=AlphaChess.possibleMove();
+                    if(userPosibilities.replaceAll(dragMove, "").length()<userPosibilities.length()){
+                        //if valid move
+                        AlphaChess.makeMove(dragMove);
+                        AlphaChess.flipBoard();
+                        AlphaChess.makeMove(AlphaChess.alphaBeta(AlphaChess.globalDepth, 1000000,-1000000,"",0));
+                        AlphaChess.flipBoard();
+                        repaint();
+                    }    
+
+                }
+                
+        }
+    }
     public void mouseDragged(MouseEvent e){}
     public void mouseClicked(MouseEvent e){
         
     }
     public void mouseMoved(MouseEvent e){
-        x =e.getX();
-        y= e.getY();
-        repaint();
+        
     }
     public void mouseExited(MouseEvent e){}
 }

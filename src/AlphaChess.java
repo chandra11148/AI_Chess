@@ -15,6 +15,7 @@ public class AlphaChess {
         {"R","K","B","Q","A","B","K","R"},
     };
     static int kingPosC,kingPosL,kingSafeC;
+    static int humanAsWhite =-1;//1=human as white ,0=human as black
     static int globalDepth=4;
     public static void main(String[] args) throws Exception {
         while(!"A".equals(ChessBoard[kingPosC/8][kingPosC%8])){kingPosC++;}
@@ -27,6 +28,14 @@ public class AlphaChess {
         f.setVisible(true);
        
         System.out.println(possibleMove());
+        Object[] option={"Computer","Human"};
+        humanAsWhite=JOptionPane.showOptionDialog(null, "Who should play as white?", "ABC Options", JOptionPane.YES_NO_OPTION,
+           JOptionPane.QUESTION_MESSAGE, null, option, option[1]);
+        if(humanAsWhite==0){
+            makeMove(alphaBeta(globalDepth, 1000000,-1000000,"",0));
+            flipBoard();
+            f.repaint();
+        }
         //makeMove(alphaBeta(globalDepth, 1000000,-1000000,"",0));
          //makeMove("7657 ");
         for(int i=0;i<8;i++){
