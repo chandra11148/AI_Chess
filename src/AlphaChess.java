@@ -48,7 +48,7 @@ public class AlphaChess {
         String list = possibleMove();
         
         if(depth==0||list.length()==0){
-            return move+(rating()*(player*2-1));
+            return move+(Rating.rating(list.length(),depth)*(player*2-1));
         }
         //testing alphaBeta
         // list ="";
@@ -451,12 +451,7 @@ public class AlphaChess {
 
         return list;
     }
-    public static int rating(){
-        // System.out.print("what is score: ");
-        // Scanner sc=new Scanner(System.in);
-        // return sc.nextInt();
-        return 0;
-    }
+    
     public static boolean kingSafe(){
         //bishop ,queen
         int temp =1;
